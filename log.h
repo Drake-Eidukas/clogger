@@ -50,11 +50,11 @@
 
 #ifndef LOG_COLOR_DEBUG
 #define LOG_COLOR_DEBUG ANSI_COLOR_YELLOW
-#endif 
+#endif
 
 #ifndef LOG_COLOR_INFO
 #define LOG_COLOR_INFO ANSI_COLOR_CYAN
-#endif 
+#endif
 
 #ifndef LOG_COLOR
 #define LOG_COLOR ANSI_COLOR_RESET
@@ -63,25 +63,25 @@
 // If LOG_LEVEL is 1 or greater, enable error logging
 #if LOG_LEVEL > __COUNTER__
 #undef LOG_ERROR
-#define LOG_ERROR(...) __LOG_COLOR(LOG_ERROR_COLOR, __VA_ARGS__)
+#define LOG_ERROR(...) __LOG_COLOR(LOG_COLOR_ERROR, __VA_ARGS__)
 #endif
 
 // If log level is 2 or greater, enable warn logging
 #if LOG_LEVEL > __COUNTER__
 #undef LOG_WARN
-#define LOG_WARN(...) __LOG_COLOR(LOG_WARN_COLOR, __VA_ARGS__)
+#define LOG_WARN(...) __LOG_COLOR(LOG_COLOR_WARN, __VA_ARGS__)
 #endif
 
 // If log level is 3 or greater, enable debug logging
 #if LOG_LEVEL > __COUNTER__
 #undef LOG_DEBUG
-#define LOG_DEBUG(...) __LOG_COLOR(LOG_DEBUG_COLOR, __VA_ARGS__)
+#define LOG_DEBUG(...) __LOG_COLOR(LOG_COLOR_DEBUG, __VA_ARGS__)
 #endif
 
 // If log level is 4 or greater, enable info logging
 #if LOG_LEVEL > __COUNTER__
 #undef LOG_INFO
-#define LOG_INFO(...) __LOG_COLOR(LOG_INFO_COLOR, __VA_ARGS__)
+#define LOG_INFO(...) __LOG_COLOR(LOG_COLOR_INFO, __VA_ARGS__)
 #endif
 
 // If log level is 5 or greater, enable all logging
