@@ -25,7 +25,7 @@ Example with some changed defaults:
 ![With Config Details Results](Modified_logging.png?raw=true)
 
 ----
-Full list of configuration settings:
+Full list of configuration settings (make sure to define these before including log.h):
 - LOG_LEVEL
   - Number that changes the verbosity of logging as described above
 - LOG_COLOR_ERROR
