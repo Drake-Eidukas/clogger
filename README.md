@@ -18,7 +18,7 @@ You can change this by defining LOG_LEVEL to be something lower.
 You can also change the colors by defining macros to any valid ansi [escape code](https://en.wikipedia.org/wiki/ANSI_escape_code).
 
 Example with full defaults: 
-![Default Configuration](https://imgur.com/7ej7v1T)
+![Default Configuration](https://imgur.com/7ej7v1T?raw=true)
 ![Default Configuration Results](https://imgur.com/OnzT2xW)
 Example with some changed defaults:
 ![With Config Details](https://imgur.com/xlT7djV)
