@@ -19,7 +19,6 @@
 #define ANSI_COLOR_ORANGE  "\x1b[38;2;255;165;0m"
 
 
-#define __LOG_COLOR(COLOR, ...) fflush(stderr); fprintf(stderr, "%s[%s:%d] %s%s(): %s", ANSI_COLOR_MAGENTA, __FILE__, __LINE__, ANSI_COLOR_GREEN, __func__, COLOR); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "%s\n", ANSI_COLOR_RESET);
 
 #ifndef LOG_LEVEL
 #define LOG_LEVEL 5
@@ -49,7 +48,7 @@
 #endif
 
 #ifndef LOG_COLOR_DEBUG
-#define LOG_COLOR_DEBUG ANSI_COLOR_YELLOW
+#define LOG_COLOR_DEBUG ANSI_COLOR_BLUE
 #endif
 
 #ifndef LOG_COLOR_INFO
@@ -60,34 +59,67 @@
 #define LOG_COLOR ANSI_COLOR_RESET
 #endif
 
+#ifndef LINE_NUMBER_COLOR
+#define LINE_NUMBER_COLOR ANSI_COLOR_MAGENTA
+#endif
+
+#ifndef FUNCTION_NAME_COLOR
+#define FUNCTION_NAME_COLOR ANSI_COLOR_GREEN
+#endif
+
+#ifndef FLUSH_BEFORE
+#define FLUSH_BEFORE 1
+#endif
+
+#ifndef FLUSH_AFTER
+#define FLUSH_AFTER 1
+#endif
+
+#ifndef PRINT_LINE_NUMBER
+#define PRINT_LINE_NUMBER 1
+#endif
+
+#ifndef PRINT_FUNCTION_NAME
+#define PRINT_FUNCTION_NAME 1
+#endif
+
+#define __LOG_COLOR(COLOR, FORMAT, ...) \
+                                if (FLUSH_BEFORE) { fflush(stderr); } \
+                                if (PRINT_LINE_NUMBER) { fprintf(stderr, "%s[%s:%d]%s ", LINE_NUMBER_COLOR, __FILE__, __LINE__, ANSI_COLOR_RESET); } \
+                                if (PRINT_FUNCTION_NAME) { fprintf(stderr, "%s%s(): %s", FUNCTION_NAME_COLOR, __func__, ANSI_COLOR_RESET); } \
+                                fprintf(stderr, "%s", COLOR); \
+                                fprintf(stderr, FORMAT, ##__VA_ARGS__); \
+                                fprintf(stderr, "%s\n", ANSI_COLOR_RESET); \
+                                if (FLUSH_AFTER) { fflush(stderr); }
+
 // If LOG_LEVEL is 1 or greater, enable error logging
 #if LOG_LEVEL > __COUNTER__
 #undef LOG_ERROR
-#define LOG_ERROR(...) __LOG_COLOR(LOG_COLOR_ERROR, __VA_ARGS__)
+#define LOG_ERROR(FORMAT, ...) __LOG_COLOR(LOG_COLOR_ERROR, FORMAT, ##__VA_ARGS__)
 #endif
 
 // If log level is 2 or greater, enable warn logging
 #if LOG_LEVEL > __COUNTER__
 #undef LOG_WARN
-#define LOG_WARN(...) __LOG_COLOR(LOG_COLOR_WARN, __VA_ARGS__)
+#define LOG_WARN(FORMAT, ...) __LOG_COLOR(LOG_COLOR_WARN, FORMAT, ##__VA_ARGS__)
 #endif
 
 // If log level is 3 or greater, enable debug logging
 #if LOG_LEVEL > __COUNTER__
 #undef LOG_DEBUG
-#define LOG_DEBUG(...) __LOG_COLOR(LOG_COLOR_DEBUG, __VA_ARGS__)
+#define LOG_DEBUG(FORMAT, ...) __LOG_COLOR(LOG_COLOR_DEBUG, FORMAT, ##__VA_ARGS__)
 #endif
 
 // If log level is 4 or greater, enable info logging
 #if LOG_LEVEL > __COUNTER__
 #undef LOG_INFO
-#define LOG_INFO(...) __LOG_COLOR(LOG_COLOR_INFO, __VA_ARGS__)
+#define LOG_INFO(FORMAT, ...) __LOG_COLOR(LOG_COLOR_INFO, FORMAT, ##__VA_ARGS__)
 #endif
 
 // If log level is 5 or greater, enable all logging
 #if LOG_LEVEL > __COUNTER__
 #undef LOG
-#define LOG(...) __LOG_COLOR(LOG_COLOR, __VA_ARGS__)
+#define LOG(FORMAT, ...) __LOG_COLOR(LOG_COLOR, FORMAT, ##__VA_ARGS__)
 #endif
 
 #endif // include guard
