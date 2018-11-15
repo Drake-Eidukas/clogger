@@ -50,3 +50,5 @@ Full list of configuration settings (make sure to define these before including 
   - Set this to `false` if you don't want to print the line numbers 
 - PRINT_FUNCTION_NAME
   - Set this to `false` if you don't want to print the function name
+- LOG_SINK
+  - Set this to any stream (stdout, stderr, etc.) to pipe all log messages to that stream.
