@@ -18,7 +18,9 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 #define ANSI_COLOR_ORANGE  "\x1b[38;2;255;165;0m"
 
-
+#ifndef LOG_SINK
+#define LOG_SINK stderr
+#endif
 
 #ifndef LOG_LEVEL
 #define LOG_LEVEL 5
@@ -84,13 +86,13 @@
 #endif
 
 #define __LOG_COLOR(COLOR, FORMAT, ...) \
-                                if (FLUSH_BEFORE) { fflush(stderr); } \
-                                if (PRINT_LINE_NUMBER) { fprintf(stderr, "%s[%s:%d]%s ", LINE_NUMBER_COLOR, __FILE__, __LINE__, ANSI_COLOR_RESET); } \
-                                if (PRINT_FUNCTION_NAME) { fprintf(stderr, "%s%s(): %s", FUNCTION_NAME_COLOR, __func__, ANSI_COLOR_RESET); } \
+                                if (FLUSH_BEFORE) { fflush(LOG_SINK); } \
+                                if (PRINT_LINE_NUMBER) { fprintf(LOG_SINK, "%s[%s:%d]%s ", LINE_NUMBER_COLOR, __FILE__, __LINE__, ANSI_COLOR_RESET); } \
+                                if (PRINT_FUNCTION_NAME) { fprintf(LOG_SINK, "%s%s(): %s", FUNCTION_NAME_COLOR, __func__, ANSI_COLOR_RESET); } \
                                 fprintf(stderr, "%s", COLOR); \
                                 fprintf(stderr, FORMAT, ##__VA_ARGS__); \
                                 fprintf(stderr, "%s\n", ANSI_COLOR_RESET); \
-                                if (FLUSH_AFTER) { fflush(stderr); }
+                                if (FLUSH_AFTER) { fflush(LOG_SINK); }
 
 // If LOG_LEVEL is 1 or greater, enable error logging
 #if LOG_LEVEL > __COUNTER__
